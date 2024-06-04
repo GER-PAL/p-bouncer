@@ -37,7 +37,7 @@ def api_decision():
         "origin": "na",
         "scenario": "na",
         "scope": "Ip",
-        "type": "ban",
+        "type": "captcha",
         "value": ""
     }
     e1, e1o = enforce_captcha(ip_str)
