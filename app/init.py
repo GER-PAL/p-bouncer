@@ -30,12 +30,13 @@ def build_geoip(db: IpDB):
 
 
 def build_firehol(db: IpDB):
-    req = requests.get(config.BLOCKLIST_URL)
-    lines = req.content.decode("utf-8").split("\n")
-    for line in lines:
-        oneIpv4 = line.strip()
-        if oneIpv4 != "" and not oneIpv4.startswith("#"):
-            db.add(ipdb.BLOCKLIST, oneIpv4)
+    for blocklist_url in config.BLOCKLIST_URLS:
+        req = requests.get(blocklist_url)
+        lines = req.content.decode("utf-8").split("\n")
+        for line in lines:
+            oneIpv4 = line.strip()
+            if oneIpv4 != "" and not oneIpv4.startswith("#"):
+                db.add(ipdb.BLOCKLIST, oneIpv4)
 
 
 build_geoip(_ipdb)

@@ -12,7 +12,8 @@ REPOS = [
     {"url": "https://github.com/herrbischoff/country-ip-blocks"}
 ]
 
-BLOCKLIST_URL = "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset"
+BLOCKLIST_URLS = ["https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset"
+                  ,"https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level2.netset"]
 
 WORKDIR_PATH = "workdir"
 

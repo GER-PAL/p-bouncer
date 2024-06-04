@@ -47,6 +47,8 @@ def api_decision():
         decision["value"] = ip_str
         decision["id"] = e1o["id"]
         decision["origin"] = e1o["list"]
+        if decision["origin"] == "BLOCK":
+            decision["type"] = "ban"
         return json.dumps([decision,])
     return "null"
 
