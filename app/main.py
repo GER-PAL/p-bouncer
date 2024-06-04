@@ -13,16 +13,18 @@ from flask import request
 
 
 def enforce_captcha(ip):
-    r1, r1o = init._ipdb.is_in_list(ipdb.LOCAL, ip)
-    if r1:
-        return False, {}
-    r2, r2o = init._ipdb.is_in_list(ipdb.BLOCKLIST, ip)
-    if r2:
-        return True, r2o
-    r3, r3o = init._ipdb.is_in_list("ch", ip)
-    if not r3:
-        return True, r3o
-    return False, {}
+    r_is_local, r_local = init._ipdb.is_in_list(ipdb.LOCAL, ip)
+    r_is_blocklist, r_blocklist = init._ipdb.is_in_list(ipdb.BLOCKLIST, ip)
+    if r_is_local:
+        return False, r_local
+    elif r_is_blocklist:
+        return True, r_blocklist
+
+    r_country = init._ipdb.search_in_lists(ip)
+    if r_country["list"] == "ch":
+        return False, r_country
+    else:
+        return True, r_country
 
 
 app = Flask(__name__)
@@ -44,6 +46,7 @@ def api_decision():
     if e1:
         decision["value"] = ip_str
         decision["id"] = e1o["id"]
+        decision["origin"] = e1o["list"]
         return json.dumps([decision,])
     return "null"
 
