@@ -44,7 +44,7 @@ def api_decision():
     if e1:
         decision["value"] = ip_str
         decision["id"] = e1o["id"]
-        return json.dumps(decision)
+        return json.dumps([decision,])
     return "null"
 
 
