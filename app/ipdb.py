@@ -3,6 +3,7 @@ import ipaddress
 
 BLOCKLIST = "BLOCK"
 LOCAL = "LOCAL"
+WHITELIST = "ALLOW"
 
 
 class IpDB:
@@ -22,6 +23,21 @@ class IpDB:
         self._id_counter += 1
         return icc
 
+    def clear(self):
+        self._db = {}
+
+    def count(self):
+        c = 0
+        for k,v in self._db.items():
+            c += len(v)
+        return c
+
+    def count_per_list(self):
+        c_per = {}
+        for k, v in self._db.items():
+            c_per[k] = len(v)
+        return c_per
+
     def is_in_list(self, list_name: str, ip_str: str):
         ip = ipaddress.ip_address(ip_str)
         if ip in self.cache and self.cache[ip]["list"] == list_name:
@@ -32,6 +48,9 @@ class IpDB:
                     self.cache[ip] = {"id": self.next_id(), "list": list_name, "match": True, "created": datetime.datetime.now()}
                 return True, self.cache[ip]
         return False, {}
+
+    def get_db(self):
+        return self._db
 
     def truncate_cache(self):
         if len(self.cache) < 10000:

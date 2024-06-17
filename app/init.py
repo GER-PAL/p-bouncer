@@ -39,10 +39,26 @@ def build_firehol(db: IpDB):
                 db.add(ipdb.BLOCKLIST, oneIpv4)
 
 
-build_geoip(_ipdb)
-build_firehol(_ipdb)
+def build_whitelist(db: IpDB):
+    whitelist_ips = app_config.IP_WHITELIST.split(",")
+    for whitelist_ip in whitelist_ips:
+       whitelist_ip = whitelist_ip.strip()
+       if whitelist_ip != "":
+           if "/" not in whitelist_ip:
+               whitelist_ip = f"{whitelist_ip}/32"
+           db.add(ipdb.WHITELIST, whitelist_ip)
 
-_ipdb.add(ipdb.LOCAL, "192.168.0.0/16")
-_ipdb.add(ipdb.LOCAL, "10.0.0.0/8")
-_ipdb.add(ipdb.LOCAL, "172.16.0.0/12")
-_ipdb.add(ipdb.LOCAL, "127.0.0.0/24")
+
+def rebuild():
+    global _ipdb
+    _ipdb.clear()
+    build_geoip(_ipdb)
+    build_firehol(_ipdb)
+    build_whitelist(_ipdb)
+    _ipdb.add(ipdb.LOCAL, "192.168.0.0/16")
+    _ipdb.add(ipdb.LOCAL, "10.0.0.0/8")
+    _ipdb.add(ipdb.LOCAL, "172.16.0.0/12")
+    _ipdb.add(ipdb.LOCAL, "127.0.0.0/24")
+
+
+

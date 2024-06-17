@@ -1,10 +1,14 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def get_environ_variable_or_exit(name):
     if name not in os.environ:
         raise Exception(f"Missing {name} in ENVIRONMENT variables")
     return os.environ[name]
+
 
 BLOCKLIST_NAME = "BLOCK"
 
@@ -18,3 +22,8 @@ BLOCKLIST_URLS = ["https://raw.githubusercontent.com/firehol/blocklist-ipsets/ma
 WORKDIR_PATH = "workdir"
 
 PUBLIC_PATH = "public"
+
+IP_WHITELIST = get_environ_variable_or_exit("WHITELIST")
+
+ALLOWED_COUNTRY = get_environ_variable_or_exit("ALLOWED_COUNTRY")
+
