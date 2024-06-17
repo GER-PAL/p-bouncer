@@ -125,8 +125,9 @@ def startup():
     logging.info(f"Starting p-bouncer service")
     thread_schedule = Thread(target=schedule_thread, args=())
     thread_schedule.start()
-    app.run(host="0.0.0.0")
+    return app
 
 
 if __name__ == '__main__':
-    startup()
+    app = startup()
+    app.run(host="0.0.0.0")
