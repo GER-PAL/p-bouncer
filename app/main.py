@@ -12,12 +12,11 @@ import schedule
 import init
 import ipdb
 from flask import request
-
-from app import app_config
-
+import app_config
 
 request_datetime_list = []
 last_update = ""
+
 
 def remove_old_request_from_list():
     global request_datetime_list
