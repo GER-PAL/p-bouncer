@@ -107,7 +107,7 @@ def update_lists():
 
 
 schedule.clear()
-schedule.every(1).day.do(update_lists)
+schedule.every(1).hour.do(update_lists)
 #schedule.every(1).minute.do(update_lists)
 
 def schedule_thread():
