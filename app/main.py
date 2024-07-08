@@ -83,14 +83,6 @@ def api_status():
     return rv
 
 
-def update_lists():
-    logging.info(f"Rebuilding IPDB")
-    init.rebuild()
-    logging.info(f"Found {init._ipdb.count()} entries in IPDB")
-    remove_old_request_from_list()
-    logging.info(f"Found {len(request_datetime_list)} entries in request_last_24h")
-
-
 @app.route("/v1/db")
 def api_db():
     return init._ipdb.get_db()
@@ -109,6 +101,7 @@ def update_lists():
 schedule.clear()
 schedule.every(1).hour.do(update_lists)
 #schedule.every(1).minute.do(update_lists)
+
 
 def schedule_thread():
     while True:
