@@ -98,12 +98,10 @@ def update_lists():
     logging.info(f"Found {len(request_datetime_list)} entries in request_last_24h")
 
 
-schedule.clear()
-schedule.every(1).hour.do(update_lists)
-#schedule.every(1).minute.do(update_lists)
-
-
 def schedule_thread():
+    schedule.clear()
+    schedule.every(1).hour.do(update_lists)
+    # schedule.every(1).minute.do(update_lists)
     while True:
         schedule.run_pending()
         time.sleep(1)
