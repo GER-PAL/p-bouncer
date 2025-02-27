@@ -49,12 +49,25 @@ def build_whitelist(db: IpDB):
            db.add(ipdb.WHITELIST, whitelist_ip)
 
 
+def build_whitelist_from_url(db: IpDB):
+    whitelist_urls = app_config.IP_WHITELIST2_URL
+    req = requests.get(whitelist_urls)
+    lines = req.content.decode("utf-8").split("\n")
+    for line in lines:
+        oneIpv4 = line.strip()
+        if oneIpv4 != "" and not oneIpv4.startswith("#"):
+            if "/" not in oneIpv4:
+                oneIpv4 = f"{oneIpv4}/32"
+            db.add(ipdb.WHITELIST, oneIpv4)
+
+
 def rebuild():
     global _ipdb
     _ipdb.clear()
     build_geoip(_ipdb)
     build_firehol(_ipdb)
     build_whitelist(_ipdb)
+    build_whitelist_from_url(_ipdb)
     _ipdb.add(ipdb.LOCAL, "192.168.0.0/16")
     _ipdb.add(ipdb.LOCAL, "10.0.0.0/8")
     _ipdb.add(ipdb.LOCAL, "172.16.0.0/12")

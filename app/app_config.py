@@ -25,5 +25,7 @@ PUBLIC_PATH = "public"
 
 IP_WHITELIST = get_environ_variable_or_exit("WHITELIST")
 
+IP_WHITELIST2_URL = get_environ_variable_or_exit("WHITELIST2_URL")
+
 ALLOWED_COUNTRY = get_environ_variable_or_exit("ALLOWED_COUNTRY")
 
